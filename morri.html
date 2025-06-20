@@ -7,7 +7,6 @@
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
     html, body {
       margin: 0; padding: 0; height: 100%;
       background-color: #00703a;
@@ -16,7 +15,6 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-
     body::before {
       content: '';
       position: fixed;
@@ -27,7 +25,6 @@
       pointer-events: none;
       z-index: 0;
     }
-
     body::after {
       content: "SHARK ";
       font-size: 14px;
@@ -43,7 +40,6 @@
       pointer-events: none;
       transform: rotate(-30deg);
     }
-
     .container {
       background: #fff;
       max-width: 450px;
@@ -60,7 +56,6 @@
       flex-direction: column;
       gap: 1.5rem;
     }
-
     h1 {
       font-weight: 700;
       font-size: clamp(1.8rem, 6vw, 2.6rem);
@@ -69,7 +64,6 @@
       user-select: none;
       text-shadow: 0 1px 4px rgba(0, 128, 60, 0.3);
     }
-
     input, button {
       font-family: 'Poppins', Arial, sans-serif;
       font-weight: 600;
@@ -85,18 +79,15 @@
       background: #f1fdf6;
       user-select: text;
     }
-
     input::placeholder {
       color: #4caf50aa;
       font-weight: 500;
     }
-
     input:focus {
       border-color: #1b5e20;
       box-shadow: 0 0 12px #2e7d32;
       background-color: #e9f9ea;
     }
-
     button {
       background-color: #2e7d32;
       color: white;
@@ -105,21 +96,17 @@
       box-shadow: 0 6px 18px rgba(46, 125, 50, 0.6);
       user-select: none;
     }
-
-    button:hover,
-    button:focus {
+    button:hover, button:focus {
       background-color: #1b5e20;
       box-shadow: 0 8px 22px rgba(27, 94, 32, 0.85);
       outline: none;
     }
-
     #warning {
       font-weight: 700;
       font-size: 1rem;
       color: #1b5e20;
       user-select: none;
     }
-
     .discord-link {
       font-size: 0.9rem;
       color: #004225;
@@ -129,14 +116,11 @@
       margin-top: 0.25rem;
       transition: color 0.3s ease;
     }
-
-    .discord-link:hover,
-    .discord-link:focus {
+    .discord-link:hover, .discord-link:focus {
       color: #1b5e20;
       outline: none;
       text-decoration: underline;
     }
-
     .barcode-box {
       background: #f9f9f9;
       border: 2px solid #4caf50;
@@ -145,14 +129,12 @@
       overflow-x: auto;
       user-select: none;
     }
-
     svg#barcode {
       display: block;
       margin: auto;
       max-width: 100%;
       height: 90px;
     }
-
     #productNameDisplay {
       margin-top: 12px;
       font-size: 1rem;
@@ -161,7 +143,6 @@
       user-select: none;
       min-height: 1.3em;
     }
-
     #downloadBtn {
       background-color: #e0f7e9;
       color: #2e7d32;
@@ -175,14 +156,11 @@
       user-select: none;
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
     }
-
-    #downloadBtn:hover,
-    #downloadBtn:focus {
+    #downloadBtn:hover, #downloadBtn:focus {
       background-color: #c8e6c9;
       box-shadow: 0 6px 20px rgba(27, 94, 32, 0.7);
       outline: none;
     }
-
     @media (max-width: 400px) {
       .container {
         padding: 2rem 1.5rem 2.5rem;
@@ -230,10 +208,10 @@
         format: "CODE128",
         lineColor: "#000",
         background: "#fff",
-        width: 2,
-        height: 70,
-        fontSize: 18,
-        margin: 10,
+        width: 2.5,
+        height: 90,
+        fontSize: 20,
+        margin: 12,
         displayValue: true
       });
 
@@ -243,24 +221,32 @@
     function downloadBarcode() {
       const svg = document.getElementById("barcode");
       const svgData = new XMLSerializer().serializeToString(svg);
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
+      const scaleFactor = 4;
+
       const img = new Image();
+      const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+      const url = URL.createObjectURL(svgBlob);
 
       img.onload = function () {
-        canvas.width = img.width;
-        canvas.height = img.height;
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width * scaleFactor;
+        canvas.height = img.height * scaleFactor;
+
+        const ctx = canvas.getContext("2d");
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0);
-        const pngFile = canvas.toDataURL("image/png");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
+        const pngFile = canvas.toDataURL("image/png");
         const downloadLink = document.createElement("a");
         downloadLink.download = "barcode.png";
         downloadLink.href = pngFile;
         downloadLink.click();
+
+        URL.revokeObjectURL(url);
       };
-      img.src = "data:image/svg+xml;base64," + btoa(svgData);
+
+      img.src = url;
     }
   </script>
 </body>
