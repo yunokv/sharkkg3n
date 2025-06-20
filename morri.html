@@ -1,151 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Morrison's Barcode Generator</title>
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      background-color: #00703a;
-      font-family: Arial, sans-serif;
-      position: relative;
+      background: linear-gradient(135deg, #00703a, #004b22);
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
     }
 
+    /* subtle diagonal stripes */
     body::before {
-      content: '';
+      content: "";
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: repeating-linear-gradient(
-        45deg,
-        rgba(255, 255, 255, 0.25) 0,
-        rgba(255, 255, 255, 0.25) 1px,
-        transparent 1px,
-        transparent 60px
-      ),
-      repeating-linear-gradient(
-        -45deg,
-        rgba(255, 255, 255, 0.25) 0,
-        rgba(255, 255, 255, 0.25) 1px,
-        transparent 1px,
-        transparent 60px
-      );
-      z-index: 0;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(45deg, rgba(255 255 255 / 0.1) 0, rgba(255 255 255 / 0.1) 2px, transparent 2px, transparent 20px),
+        repeating-linear-gradient(-45deg, rgba(255 255 255 / 0.1) 0, rgba(255 255 255 / 0.1) 2px, transparent 2px, transparent 20px);
       pointer-events: none;
-    }
-
-    body::after {
-      content: "SHARK ";
-      font-size: 14px;
-      color: rgba(255,255,255,0.15);
-      position: fixed;
-      width: 300%;
-      height: 300%;
-      top: 0;
-      left: 0;
-      white-space: pre-wrap;
-      line-height: 1.4;
       z-index: 0;
-      pointer-events: none;
-      transform: rotate(-30deg);
     }
 
     .container {
-      background-color: #fff;
-      width: 90%;
-      max-width: 450px;
-      margin: auto;
-      padding: 25px 20px;
-      border-radius: 15px;
+      background: #f9f9f9;
+      width: 100%;
+      max-width: 460px;
+      border-radius: 20px;
+      padding: 30px 30px 40px;
+      box-shadow: 0 12px 35px rgba(0, 112, 58, 0.45);
       text-align: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
       position: relative;
-      top: 50%;
-      transform: translateY(-50%);
       z-index: 1;
+      color: #004b22;
+      user-select: none;
+      animation: fadeInScale 0.7s ease forwards;
     }
 
     h1 {
-      margin-bottom: 20px;
-      font-size: clamp(20px, 6vw, 28px);
+      font-weight: 700;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      margin-bottom: 30px;
+      letter-spacing: 1.5px;
+      color: #00703a;
+      text-shadow: 0 1px 5px rgba(0,112,58,0.25);
     }
 
-    input, button {
+    input[type="text"] {
       width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      font-size: 16px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: 2px solid #00703a;
+      outline-offset: 2px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 500;
+      color: #004b22;
+      box-shadow: inset 0 0 6px #a6d4b8;
+    }
+
+    input[type="text"]:focus {
+      border-color: #004b22;
+      box-shadow: 0 0 10px #00703a;
+      background-color: #e6f1e8;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background-color: #00703a;
+      border: none;
+      border-radius: 14px;
+      color: #f9f9f9;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0, 112, 58, 0.6);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+
+    button:hover {
+      background-color: #004b22;
+      box-shadow: 0 8px 20px rgba(0, 75, 34, 0.75);
     }
 
     #warning {
-      color: black;
-      font-weight: bold;
-      margin: 12px 0;
-      font-size: 14px;
+      margin: 20px 0 15px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #004b22;
+      background: #d4f1d4;
+      padding: 12px 14px;
+      border-radius: 10px;
+      box-shadow: inset 0 0 8px #8ecc8e;
+      user-select: none;
     }
 
     a.discord {
-      display: block;
-      margin: 10px 0;
-      color: black;
-      text-decoration: none;
-      font-size: 14px;
+      display: inline-block;
+      margin-bottom: 15px;
+      color: #00703a;
+      font-weight: 600;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+      user-select: none;
+    }
+
+    a.discord:hover {
+      color: #004b22;
     }
 
     .barcode-box {
-      background-color: #ffffff;
-      padding: 12px;
-      border: 1px solid #ccc;
-      margin-top: 20px;
+      background: #fff;
+      border-radius: 14px;
+      border: 1.8px solid #00703a;
+      padding: 18px 14px 24px;
+      box-shadow: 0 0 25px rgba(0,112,58,0.3);
+      margin-top: 25px;
       overflow-x: auto;
+      user-select: none;
     }
 
     #productNameDisplay {
       margin-top: 10px;
-      font-size: 14px;
-      font-weight: bold;
-      color: #000;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #004b22;
+      letter-spacing: 0.03em;
     }
 
     #downloadBtn {
-      background-color: #eee;
+      margin-top: 25px;
+      background-color: #e5f0e5;
+      color: #00703a;
+      font-weight: 700;
+      border-radius: 14px;
+      padding: 13px 0;
+      box-shadow: 0 4px 15px rgba(0, 112, 58, 0.4);
       cursor: pointer;
-      margin-top: 15px;
+      border: none;
+      transition: background-color 0.25s ease, box-shadow 0.25s ease;
+      user-select: none;
     }
 
-    @media (max-height: 600px) {
+    #downloadBtn:hover {
+      background-color: #c1ddc1;
+      box-shadow: 0 6px 20px rgba(0, 75, 34, 0.6);
+    }
+
+    /* Animations */
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
       .container {
-        top: 0;
-        transform: none;
-        margin-top: 20px;
+        padding: 20px 20px 30px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      button, input[type="text"], #downloadBtn {
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
+  <div class="container" role="main" aria-label="Morrison's Barcode Generator">
     <h1>Morrison's Barcode Generator</h1>
-    <input type="text" id="productCode" placeholder="Enter original product barcode">
-    <input type="text" id="price" placeholder="Enter Product Name (not req)">
-    <button onclick="generateBarcode()">Generate Barcode</button>
-    <div id="warning">makes all products 3p | made by shark & fredo</div>
-    <a class="discord" href="https://discord.gg/MpYfaxMk2U" target="_blank">https://discord.gg/MpYfaxMk2U</a>
+    <input type="text" id="productCode" placeholder="Enter original product barcode" aria-label="Product barcode input" />
+    <input type="text" id="price" placeholder="Enter Product Name (optional)" aria-label="Product name input" />
+    <button onclick="generateBarcode()" aria-label="Generate barcode button">Generate Barcode</button>
+    <div id="warning" role="alert">Makes all products 3p | Made by Shark & Fredo</div>
+    <a class="discord" href="https://discord.gg/MpYfaxMk2U" target="_blank" rel="noopener noreferrer" aria-label="Join our Discord server">Join our Discord Server</a>
 
-    <div class="barcode-box">
-      <svg id="barcode"></svg>
+    <div class="barcode-box" aria-live="polite">
+      <svg id="barcode" role="img" aria-label="Generated barcode"></svg>
       <div id="productNameDisplay"></div>
     </div>
-    <button id="downloadBtn" onclick="downloadBarcode()">Download as PNG</button>
+    <button id="downloadBtn" onclick="downloadBarcode()" aria-label="Download barcode as PNG">Download as PNG</button>
   </div>
 
   <script>
@@ -162,12 +218,12 @@
 
       JsBarcode("#barcode", finalData, {
         format: "CODE128",
-        lineColor: "#000",
+        lineColor: "#004b22",
         background: "#fff",
         width: 2,
-        height: 70,
-        fontSize: 18,
-        margin: 10,
+        height: 80,
+        fontSize: 20,
+        margin: 12,
         displayValue: true
       });
 
@@ -184,7 +240,7 @@
       img.onload = function () {
         canvas.width = img.width;
         canvas.height = img.height;
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = "#fff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 0, 0);
         const pngFile = canvas.toDataURL("image/png");
