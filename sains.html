@@ -205,32 +205,11 @@
   </style>
 </head>
 <body>
-
   <div class="watermark" id="watermark"></div>
-
   <main class="container" role="main" aria-label="Sainsbury's Barcode Generator">
     <h1>Sainsbury's Barcode Generator</h1>
-    <input
-      type="text"
-      id="productCode"
-      placeholder="Enter original product barcode"
-      maxlength="13"
-      pattern="\d*"
-      inputmode="numeric"
-      oninput="this.value=this.value.replace(/\D/g,'').slice(0,13)"
-      onpaste="setTimeout(() => this.value = this.value.replace(/\D/g,'').slice(0,13), 0)"
-      aria-label="Product barcode input"
-      required
-    >
-    <input
-      type="number"
-      id="price"
-      placeholder="Enter price (e.g., 100 = £1.00)"
-      min="30"
-      max="9999"
-      aria-label="Price input"
-      required
-    >
+    <input type="text" id="productCode" placeholder="Enter original product barcode" maxlength="13" pattern="\d*" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,13)" onpaste="setTimeout(() => this.value = this.value.replace(/\D/g,'').slice(0,13), 0)" aria-label="Product barcode input" required>
+    <input type="number" id="price" placeholder="Enter price (e.g., 100 = £1.00)" min="30" max="9999" aria-label="Price input" required>
     <button onclick="generateBarcode()" aria-label="Generate barcode button">Generate Barcode</button>
     <div class="note">Most 30p barcodes are patched</div>
     <canvas id="barcodeCanvas" aria-label="Generated barcode"></canvas>
@@ -241,7 +220,6 @@
       <button>Download as PNG</button>
     </a>
   </main>
-
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
   <script>
     function padLeft(str, length) {
@@ -281,23 +259,29 @@
       const fullBarcode = `${baseNumber}${checkDigit}`;
 
       const canvas = document.getElementById("barcodeCanvas");
-      const ctx = canvas.getContext("2d");
-      canvas.width = window.innerWidth < 600 ? 320 : 600;
-      canvas.height = 200;
+      const scaleFactor = 3;
+      const tempCanvas = document.createElement("canvas");
+      tempCanvas.width = canvas.width * scaleFactor;
+      tempCanvas.height = canvas.height * scaleFactor;
 
-      JsBarcode(canvas, fullBarcode, {
+      JsBarcode(tempCanvas, fullBarcode, {
         format: "CODE128",
         displayValue: true,
-        fontSize: 16,
-        width: 2,
-        height: 100,
-        margin: 10
+        fontSize: 18 * scaleFactor,
+        width: 2 * scaleFactor,
+        height: 100 * scaleFactor,
+        margin: 12 * scaleFactor
       });
 
-      ctx.font = "14px Poppins, Arial, sans-serif";
+      const ctx = canvas.getContext("2d");
+      canvas.width = tempCanvas.width;
+      canvas.height = tempCanvas.height;
+      ctx.drawImage(tempCanvas, 0, 0);
+
+      ctx.font = `${14 * scaleFactor}px Poppins, Arial, sans-serif`;
       ctx.fillStyle = "black";
       ctx.textAlign = "center";
-      ctx.fillText("https://discord.gg/SuVMU2T9qK", canvas.width / 2, 190);
+      ctx.fillText("https://discord.gg/SuVMU2T9qK", canvas.width / 2, canvas.height - 20);
 
       const downloadLink = document.getElementById("downloadLink");
       downloadLink.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
