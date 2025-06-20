@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sainsbury's Barcode Generator</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
     :root {
       --main-orange: #f47738;
+      --main-orange-dark: #d75f1e;
     }
 
     * {
@@ -14,113 +17,188 @@
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background-color: var(--main-orange);
-      color: #fff;
       margin: 0;
-      padding: 1rem;
+      padding: 1.5rem 1rem;
+      background-color: var(--main-orange);
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #fff;
       text-align: center;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
       background-image:
-        repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 20px),
-        repeating-linear-gradient(-45deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 20px);
+        repeating-linear-gradient(45deg, rgba(255 255 255 / 0.06) 0, rgba(255 255 255 / 0.06) 1px, transparent 1px, transparent 20px),
+        repeating-linear-gradient(-45deg, rgba(255 255 255 / 0.06) 0, rgba(255 255 255 / 0.06) 1px, transparent 1px, transparent 20px);
     }
 
     .watermark {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       pointer-events: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
       z-index: 0;
-      opacity: 0.08;
+      opacity: 0.06;
+      user-select: none;
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: #fff;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-auto-rows: 100px;
+      transform: rotate(-30deg);
+      overflow: hidden;
+      gap: 0;
+      justify-items: center;
+      align-items: center;
     }
 
     .watermark span {
-      position: absolute;
-      color: rgba(255, 255, 255, 0.25);
-      font-size: 1.2rem;
-      font-weight: bold;
-      transform: rotate(-30deg);
-      white-space: nowrap;
       user-select: none;
     }
 
     .container {
-      position: relative;
-      z-index: 1;
       background: #fff;
       color: #333;
-      padding: 1.5rem;
       border-radius: 1rem;
-      max-width: 95%;
+      max-width: 500px;
       width: 100%;
-      margin: 2rem auto;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      margin: 3rem auto;
+      padding: 2.5rem 2rem 3rem;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      position: relative;
+      z-index: 1;
     }
 
-    input, button {
-      padding: 0.75rem;
-      font-size: 1rem;
-      margin: 0.5rem 0;
+    h1 {
+      font-weight: 700;
+      font-size: clamp(1.9rem, 5vw, 2.8rem);
+      margin-bottom: 1.5rem;
+      letter-spacing: 1.4px;
+      color: var(--main-orange);
+      text-shadow: 0 1px 4px rgba(244,119,56,0.5);
+    }
+
+    input[type="text"],
+    input[type="number"] {
       width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 0.5rem;
+      padding: 14px 18px;
+      font-size: 1rem;
+      border-radius: 0.7rem;
+      border: 1.5px solid #ccc;
+      margin: 0.75rem 0;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 500;
+      color: #333;
+      outline-offset: 2px;
+      box-shadow: inset 0 0 5px #f2a36f;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      border-color: var(--main-orange-dark);
+      box-shadow: 0 0 10px var(--main-orange);
+      background-color: #fff6f1;
     }
 
     button {
-      background-color: var(--main-orange);
+      margin-top: 1rem;
+      width: 100%;
+      padding: 16px 0;
+      font-size: 1.15rem;
+      font-weight: 700;
       color: white;
+      background-color: var(--main-orange);
       border: none;
+      border-radius: 1rem;
       cursor: pointer;
+      box-shadow: 0 5px 15px rgba(244, 119, 56, 0.5);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
     }
 
     button:hover {
-      background-color: #d75f1e;
+      background-color: var(--main-orange-dark);
+      box-shadow: 0 7px 20px rgba(215, 95, 30, 0.7);
     }
 
     canvas {
-      margin-top: 1rem;
+      margin-top: 1.5rem;
       max-width: 100%;
-      width: 100%;
       height: auto;
       background: #fff;
-      border-radius: 0.5rem;
+      border-radius: 0.8rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      user-select: none;
     }
 
     .link-under-canvas {
-      margin-top: 0.5rem;
-      font-size: 0.85rem;
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      font-weight: 600;
     }
 
     .link-under-canvas a {
-      color: var(--main-orange);
-      text-decoration: none;
-      font-weight: bold;
+      color: #fff;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+      user-select: none;
+    }
+
+    .link-under-canvas a:hover {
+      color: #ffe2cc;
     }
 
     .note {
-      color: #c00;
-      font-weight: bold;
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
+      margin-top: 0.75rem;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #b23000;
     }
 
-    @media (min-width: 600px) {
+    #downloadLink button {
+      margin-top: 0.7rem;
+      background-color: #fff;
+      color: var(--main-orange);
+      border-radius: 1rem;
+      padding: 14px 0;
+      width: 100%;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 3px 12px rgba(244,119,56,0.5);
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+
+    #downloadLink button:hover {
+      background-color: #ffe9d9;
+      box-shadow: 0 5px 15px rgba(215,95,30,0.6);
+    }
+
+    @media (max-width: 600px) {
       .container {
-        max-width: 500px;
+        margin: 2rem 0;
+        padding: 2rem 1.5rem 2.5rem;
       }
 
-      .watermark span {
-        font-size: 1.5rem;
+      h1 {
+        font-size: 2rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="watermark" id="watermark"></div>
 
-  <div class="container">
+  <div class="watermark" aria-hidden="true" role="presentation">
+    <span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span>
+    <span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span>
+    <span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span>
+    <span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span>
+    <span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span>
+    <span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span><span>SHARK</span>
+  </div>
+
+  <main class="container" role="main" aria-label="Sainsbury's Barcode Generator">
     <h1>Sainsbury's Barcode Generator</h1>
     <input
       type="text"
@@ -129,20 +207,30 @@
       maxlength="13"
       pattern="\d*"
       inputmode="numeric"
+      aria-label="Product barcode input"
       oninput="this.value=this.value.replace(/\D/g,'').slice(0,13)"
       onpaste="setTimeout(() => this.value = this.value.replace(/\D/g,'').slice(0,13), 0)"
-    >
-    <input type="number" id="price" placeholder="Enter price (e.g., 100 = £1.00)" min="30" max="9999">
-    <button onclick="generateBarcode()">Generate Barcode</button>
-    <div class="note">most 30p barcodes are patched</div>
-    <canvas id="barcodeCanvas"></canvas>
+    />
+    <input
+      type="number"
+      id="price"
+      placeholder="Enter price (e.g., 100 = £1.00)"
+      min="30"
+      max="9999"
+      aria-label="Price input"
+    />
+    <button onclick="generateBarcode()" aria-label="Generate barcode button">Generate Barcode</button>
+    <div class="note" role="alert">Most 30p barcodes are patched</div>
+    <canvas id="barcodeCanvas" aria-label="Generated barcode"></canvas>
     <div class="link-under-canvas">
-      <a href="https://discord.gg/MpYfaxMk2U" target="_blank">https://discord.gg/MpYfaxMk2U</a>
+      <a href="https://discord.gg/MpYfaxMk2U" target="_blank" rel="noopener noreferrer" aria-label="Join our Discord server">
+        https://discord.gg/MpYfaxMk2U
+      </a>
     </div>
-    <a id="downloadLink" download="barcode.png">
-      <button style="margin-top: 0.75rem;">Download as PNG</button>
+    <a id="downloadLink" download="barcode.png" aria-label="Download barcode as PNG">
+      <button>Download as PNG</button>
     </a>
-  </div>
+  </main>
 
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
   <script>
@@ -203,19 +291,6 @@
 
       const downloadLink = document.getElementById("downloadLink");
       downloadLink.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    }
-
-    const watermarkDiv = document.getElementById('watermark');
-    const rows = 10;
-    const cols = 6;
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        const span = document.createElement('span');
-        span.innerText = 'SHARK';
-        span.style.top = `${y * 100}px`;
-        span.style.left = `${x * 150}px`;
-        watermarkDiv.appendChild(span);
-      }
     }
   </script>
 </body>
