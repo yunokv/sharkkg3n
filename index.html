@@ -24,7 +24,6 @@
       overflow-x: hidden;
     }
 
-    /* Pattern overlay */
     body::before {
       content: "";
       position: absolute;
@@ -37,6 +36,7 @@
     h1, h2 {
       position: relative;
       z-index: 1;
+      animation: fadeDown 0.8s ease-out forwards;
     }
 
     h1 {
@@ -60,6 +60,7 @@
       gap: 2rem;
       width: 100%;
       max-width: 1000px;
+      animation: fadeUp 1.2s ease-out forwards;
     }
 
     .card {
@@ -67,15 +68,18 @@
       border-radius: 20px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
       overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.3s ease, border 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
       cursor: pointer;
       text-align: center;
       border: 2px solid transparent;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: cardFadeIn 0.6s ease-out forwards;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(0, 198, 255, 0.4);
       border-color: #00c6ff;
     }
 
@@ -107,20 +111,89 @@
       border-radius: 10px;
       cursor: pointer;
       text-decoration: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      animation: pulseGlow 2s infinite ease-in-out;
     }
 
     .discord-button:hover {
       background-color: #4752c4;
       transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(88, 101, 242, 0.8);
+    }
+
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      color: #ccc;
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding: 2rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(6px);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      width: 90%;
+      max-width: 800px;
+      animation: fadeUp 1.5s ease-out forwards;
+    }
+
+    footer a {
+      color: #8ab4f8;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeUp {
+      0% {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeDown {
+      0% {
+        transform: translateY(-30px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes cardFadeIn {
+      0% {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(88, 101, 242, 0.9);
+      }
     }
 
     @media (max-width: 500px) {
       h1 {
         font-size: 2rem;
       }
-
       .card img {
         height: 150px;
       }
@@ -128,8 +201,12 @@
   </style>
 </head>
 <body>
+  <!-- Optional logo -->
+  <!-- <img src="https://i.postimg.cc/nhxCrpRr/stone-2.png" alt="stonstore logo" style="width: 140px; margin-bottom: 1rem; z-index: 1; position: relative; animation: floatLogo 3s ease-in-out infinite alternate;" /> -->
+
   <h1>Choose a Generator</h1>
   <h2>made by @shark.net</h2>
+
   <div class="grid">
     <a class="card" href="morri.html">
       <img src="https://1000logos.net/wp-content/uploads/2023/03/Morrisons-logo.png" alt="Morrisons Logo" />
@@ -148,16 +225,16 @@
   </div>
 
   <a class="discord-button" href="https://discord.gg/SuVMU2T9qK" target="_blank">Join the Discord</a>
-  
-  <footer style="margin-top: 4rem; text-align: center; color: #ccc; font-size: 0.85rem; position: relative; z-index: 1; padding: 2rem 1rem;">
-  <p>© 2025 stonstore. All rights reserved.</p>
-  <p>
-    <a href="https://discord.gg/SuVMU2T9qK" style="color: #8ab4f8; text-decoration: none;">Join our Discord</a>
-    &nbsp;|&nbsp;
-    <a href="#" style="color: #8ab4f8; text-decoration: none;">Terms of Use</a>
-    &nbsp;|&nbsp;
-    <a href="#" style="color: #8ab4f8; text-decoration: none;">Privacy Policy</a>
-  </p>
-</footer>
+
+  <footer>
+    <p>© 2025 stonstore. All rights reserved.</p>
+    <p>
+      <a href="https://discord.gg/SuVMU2T9qK">Join our Discord</a>
+      &nbsp;|&nbsp;
+      <a href="#">Terms of Use</a>
+      &nbsp;|&nbsp;
+      <a href="#">Privacy Policy</a>
+    </p>
+  </footer>
 </body>
 </html>
