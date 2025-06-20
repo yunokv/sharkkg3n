@@ -2,76 +2,99 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tesco Barcode Generator</title>
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-  <link href="https://fonts.cdnfonts.com/css/comic-sans-ms" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/comic-sans-ms" rel="stylesheet" />
   <style>
     * {
       box-sizing: border-box;
-      font-family: 'Comic Sans MS', sans-serif;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
     }
 
     body {
       margin: 0;
       background: #003478;
-      background-image: linear-gradient(45deg, #003478 25%, #002c63 25%, #002c63 50%, #003478 50%, #003478 75%, #002c63 75%, #002c63);
+      background-image:
+        linear-gradient(45deg,
+          #003478 25%, #002c63 25%, #002c63 50%, #003478 50%,
+          #003478 75%, #002c63 75%, #002c63 100%);
       background-size: 40px 40px;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       padding: 1rem;
+      color: #e31837;
+      user-select: none;
     }
 
     .container {
-      background-color: #ffffff;
+      background-color: #fff;
       border-radius: 16px;
-      padding: 2rem 1.5rem;
-      box-shadow: 0 0 20px rgba(0,0,0,0.15);
+      padding: 2.5rem 2rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
       text-align: center;
+      color: #003478;
+      position: relative;
     }
 
     .tesco-logo {
       max-width: 120px;
       margin-bottom: 1rem;
+      user-select: none;
     }
 
     h1 {
+      font-weight: 700;
+      font-size: 1.75rem;
+      margin-bottom: 0.25rem;
       color: #003478;
-      font-weight: normal;
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
     }
 
     h2 {
-      font-size: 1rem;
+      font-size: 1.1rem;
+      margin: 0 0 1rem 0;
+      font-weight: 600;
       color: #e31837;
-      margin: 0;
+      user-select: none;
     }
 
     input {
       width: 100%;
-      padding: 12px;
+      padding: 14px 16px;
       font-size: 1rem;
       margin-top: 1rem;
       margin-bottom: 0.75rem;
       border: 2px solid #003478;
-      border-radius: 8px;
+      border-radius: 10px;
+      outline-offset: 2px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      color: #003478;
+      font-weight: 600;
+    }
+
+    input:focus {
+      border-color: #e31837;
+      box-shadow: 0 0 8px #e31837;
+      background-color: #fff4f4;
     }
 
     button {
       background-color: #003478;
       color: white;
       border: none;
-      padding: 12px;
-      font-size: 1rem;
-      border-radius: 8px;
+      padding: 14px 0;
+      font-size: 1.15rem;
+      border-radius: 10px;
       cursor: pointer;
       margin-top: 1rem;
       width: 100%;
+      font-weight: 700;
+      transition: background-color 0.3s ease;
+      user-select: none;
     }
 
     button:hover {
@@ -81,17 +104,22 @@
     canvas {
       margin-top: 1.5rem;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 10px;
       background: #fff;
-      width: 380px;
-      height: 200px;
+      width: 100%;
+      height: auto;
+      max-height: 300px;
       image-rendering: pixelated;
+      user-select: none;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
 
     .notice {
-      color: red;
+      color: #d30f0f;
       font-size: 14px;
-      margin-top: 0.5rem;
+      margin-top: 0.6rem;
+      font-weight: 600;
+      user-select: none;
     }
 
     a {
@@ -100,45 +128,70 @@
       color: #e31837;
       text-decoration: none;
       font-size: 14px;
+      font-weight: 600;
+      user-select: text;
+      transition: color 0.3s ease;
     }
 
     a:hover {
       text-decoration: underline;
+      color: #ff4f4f;
     }
 
     @media (max-width: 400px) {
       .container {
-        padding: 1.5rem 1rem;
+        padding: 2rem 1.25rem;
       }
 
       h1 {
-        font-size: 1.25rem;
+        font-size: 1.4rem;
       }
 
       input, button {
-        font-size: 0.95rem;
+        font-size: 1rem;
+      }
+
+      canvas {
+        max-height: 250px;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <img class="tesco-logo" src="https://www.logo.wine/a/logo/Tesco/Tesco-Logo.wine.svg" alt="Tesco Logo" />
+  <div class="container" role="main" aria-label="Tesco Barcode Generator">
+    <img class="tesco-logo" src="https://www.logo.wine/a/logo/Tesco/Tesco-Logo.wine.svg" alt="Tesco Logo" draggable="false" />
     <h1>Tesco Barcode Generator</h1>
     <h2>made by @shark.net</h2>
 
-    <input type="text" id="userInput" placeholder="Enter product number..." />
-    <input type="text" id="productName" placeholder="Optional product name..." />
+    <input
+      type="text"
+      id="userInput"
+      placeholder="Enter product number..."
+      aria-label="Product number input"
+      pattern="\d*"
+      inputmode="numeric"
+      oninput="this.value = this.value.replace(/\D/g,'')"
+    />
+    <input
+      type="text"
+      id="productName"
+      placeholder="Optional product name..."
+      aria-label="Optional product name"
+    />
 
-    <button onclick="generateBarcode()">Generate Barcode</button>
-    <div class="notice">makes them 5p</div>
+    <button onclick="generateBarcode()" aria-label="Generate barcode">Generate Barcode</button>
+    <div class="notice" role="alert">makes them 5p</div>
 
-    <canvas id="barcodeCanvas" width="1140" height="600"></canvas>
+    <canvas id="barcodeCanvas" width="1140" height="600" aria-label="Generated barcode"></canvas>
 
-    <a href="https://discord.gg/MpYfaxMk2U" target="_blank">https://discord.gg/MpYfaxMk2U</a>
+    <a href="https://discord.gg/MpYfaxMk2U" target="_blank" rel="noopener noreferrer" aria-label="Join Discord server">
+      https://discord.gg/MpYfaxMk2U
+    </a>
 
-    <button onclick="downloadBarcode()">Download as PNG</button>
+    <button onclick="downloadBarcode()" aria-label="Download barcode as PNG" style="margin-top: 1rem;">
+      Download as PNG
+    </button>
   </div>
 
   <script>
@@ -148,7 +201,7 @@
       const canvas = document.getElementById('barcodeCanvas');
       const ctx = canvas.getContext('2d');
 
-      if (!input.match(/^\d+$/)) {
+      if (!/^\d+$/.test(input)) {
         alert("Only digits allowed in the number field!");
         return;
       }
@@ -158,7 +211,7 @@
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Temp barcode canvas - make this bigger for better quality
+      // Create temp canvas for high-quality barcode
       const temp = document.createElement('canvas');
       temp.width = 1000;
       temp.height = 400;
