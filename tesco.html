@@ -15,86 +15,75 @@
     body {
       margin: 0;
       background: #003478;
-      background-image:
+      background-image: 
         linear-gradient(45deg,
           #003478 25%, #002c63 25%, #002c63 50%, #003478 50%,
           #003478 75%, #002c63 75%, #002c63 100%);
       background-size: 40px 40px;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       min-height: 100vh;
       padding: 1rem;
       color: #e31837;
-      user-select: none;
     }
 
     .container {
       background-color: #fff;
       border-radius: 16px;
-      padding: 2.5rem 2rem;
+      padding: 2rem 1.5rem;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
       width: 100%;
-      max-width: 440px;
+      max-width: 500px;
       text-align: center;
       color: #003478;
-      position: relative;
     }
 
     .tesco-logo {
-      max-width: 120px;
+      max-width: 100px;
       margin-bottom: 1rem;
-      user-select: none;
     }
 
     h1 {
-      font-weight: 700;
-      font-size: 1.75rem;
-      margin-bottom: 0.25rem;
-      color: #003478;
+      font-size: 1.5rem;
+      margin-bottom: 0.3rem;
     }
 
     h2 {
-      font-size: 1.1rem;
-      margin: 0 0 1rem 0;
-      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 1rem;
       color: #e31837;
-      user-select: none;
     }
 
     input {
       width: 100%;
-      padding: 14px 16px;
+      padding: 12px;
       font-size: 1rem;
-      margin-top: 1rem;
-      margin-bottom: 0.75rem;
+      margin: 0.5rem 0;
       border: 2px solid #003478;
-      border-radius: 10px;
-      outline-offset: 2px;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 8px;
+      font-weight: bold;
       color: #003478;
-      font-weight: 600;
     }
 
     input:focus {
       border-color: #e31837;
-      box-shadow: 0 0 8px #e31837;
       background-color: #fff4f4;
+      outline: none;
     }
 
     button {
+      width: 100%;
+      padding: 12px;
       background-color: #003478;
       color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
       border: none;
-      padding: 14px 0;
-      font-size: 1.15rem;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
       margin-top: 1rem;
-      width: 100%;
-      font-weight: 700;
-      transition: background-color 0.3s ease;
-      user-select: none;
+      transition: background-color 0.2s ease;
     }
 
     button:hover {
@@ -102,96 +91,70 @@
     }
 
     canvas {
-      margin-top: 1.5rem;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      background: #fff;
       width: 100%;
       height: auto;
-      max-height: 300px;
-      image-rendering: pixelated;
-      user-select: none;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      margin-top: 1.2rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     }
 
     .notice {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: bold;
       color: #d30f0f;
-      font-size: 14px;
-      margin-top: 0.6rem;
-      font-weight: 600;
-      user-select: none;
     }
 
     a {
       display: block;
-      margin-top: 1rem;
+      margin-top: 0.75rem;
       color: #e31837;
+      font-weight: bold;
       text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      user-select: text;
-      transition: color 0.3s ease;
     }
 
     a:hover {
       text-decoration: underline;
-      color: #ff4f4f;
     }
 
     @media (max-width: 400px) {
-      .container {
-        padding: 2rem 1.25rem;
-      }
-
-      h1 {
-        font-size: 1.4rem;
-      }
-
-      input, button {
-        font-size: 1rem;
-      }
-
-      canvas {
-        max-height: 250px;
-      }
+      h1 { font-size: 1.25rem; }
+      h2 { font-size: 0.95rem; }
+      input, button { font-size: 0.95rem; }
     }
   </style>
 </head>
 <body>
 
-  <div class="container" role="main" aria-label="Tesco Barcode Generator">
-    <img class="tesco-logo" src="https://www.logo.wine/a/logo/Tesco/Tesco-Logo.wine.svg" alt="Tesco Logo" draggable="false" />
+  <div class="container">
+    <img class="tesco-logo" src="https://www.logo.wine/a/logo/Tesco/Tesco-Logo.wine.svg" alt="Tesco Logo">
     <h1>Tesco Barcode Generator</h1>
     <h2>made by @shark.net</h2>
 
     <input
       type="text"
       id="userInput"
-      placeholder="Enter product number..."
-      aria-label="Product number input"
-      pattern="\d*"
+      placeholder="Enter product number"
       inputmode="numeric"
+      pattern="\d*"
       oninput="this.value = this.value.replace(/\D/g,'')"
     />
     <input
       type="text"
       id="productName"
-      placeholder="Optional product name..."
-      aria-label="Optional product name"
+      placeholder="Optional product name"
     />
 
-    <button onclick="generateBarcode()" aria-label="Generate barcode">Generate Barcode</button>
-    <div class="notice" role="alert">makes them 5p</div>
+    <button onclick="generateBarcode()">Generate Barcode</button>
+    <div class="notice">makes them 5p</div>
 
-    <canvas id="barcodeCanvas" width="1140" height="600" aria-label="Generated barcode"></canvas>
+    <canvas id="barcodeCanvas" width="600" height="250"></canvas>
 
-    <a href="https://discord.gg/MpYfaxMk2U" target="_blank" rel="noopener noreferrer" aria-label="Join Discord server">
-      https://discord.gg/MpYfaxMk2U
-    </a>
+    <a href="https://discord.gg/MpYfaxMk2U" target="_blank">discord.gg/MpYfaxMk2U</a>
 
-    <button onclick="downloadBarcode()" aria-label="Download barcode as PNG" style="margin-top: 1rem;">
-      Download as PNG
-    </button>
+    <button onclick="downloadBarcode()">Download as PNG</button>
   </div>
 
   <script>
@@ -202,47 +165,44 @@
       const ctx = canvas.getContext('2d');
 
       if (!/^\d+$/.test(input)) {
-        alert("Only digits allowed in the number field!");
+        alert("Only digits allowed!");
         return;
       }
 
       const fullCode = '971' + input + '70000507';
-
-      // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Create temp canvas for high-quality barcode
       const temp = document.createElement('canvas');
       temp.width = 1000;
-      temp.height = 400;
+      temp.height = 300;
 
       JsBarcode(temp, fullCode, {
         format: "CODE128",
         lineColor: "#000",
-        width: 4,
-        height: 300,
+        width: 3,
+        height: 200,
         displayValue: true,
         font: "Comic Sans MS",
-        fontSize: 60,
-        margin: 20
+        fontSize: 40,
+        margin: 10
       });
 
       const x = (canvas.width - temp.width) / 2;
-      const y = (canvas.height - temp.height) / 2 - 20;
+      const y = (canvas.height - temp.height) / 2;
 
       ctx.drawImage(temp, x, y);
 
       if (name) {
-        ctx.font = "bold 80px 'Comic Sans MS'";
+        ctx.font = "bold 24px 'Comic Sans MS'";
         ctx.fillStyle = "#e31837";
         ctx.textAlign = "center";
-        ctx.fillText(name, canvas.width / 2, canvas.height - 80);
+        ctx.fillText(name, canvas.width / 2, canvas.height - 10);
       }
     }
 
     function downloadBarcode() {
-      const name = document.getElementById('productName').value.trim();
       const canvas = document.getElementById('barcodeCanvas');
+      const name = document.getElementById('productName').value.trim();
       const link = document.createElement('a');
       link.download = (name ? name.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'tesco_barcode') + '.png';
       link.href = canvas.toDataURL("image/png");
