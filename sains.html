@@ -138,25 +138,9 @@
       user-select: none;
     }
 
+    /* Hide the discord link under canvas */
     .link-under-canvas {
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      user-select: none;
-    }
-
-    .link-under-canvas a {
-      color: var(--main-orange);
-      font-weight: 700;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      user-select: text;
-    }
-
-    .link-under-canvas a:hover,
-    .link-under-canvas a:focus {
-      color: var(--main-orange-dark);
-      outline: none;
-      text-decoration: underline;
+      display: none;
     }
 
     .note {
@@ -213,9 +197,7 @@
     <button onclick="generateBarcode()" aria-label="Generate barcode button">Generate Barcode</button>
     <div class="note">Most 30p barcodes are patched</div>
     <canvas id="barcodeCanvas" aria-label="Generated barcode"></canvas>
-    <div class="link-under-canvas">
-      <a href="https://discord.gg/MpYfaxMk2U" target="_blank" rel="noopener noreferrer">https://discord.gg/MpYfaxMk2U</a>
-    </div>
+    <!-- Discord link hidden -->
     <a id="downloadLink" download="barcode.png" aria-label="Download barcode link">
       <button>Download as PNG</button>
     </a>
@@ -278,10 +260,7 @@
       canvas.height = tempCanvas.height;
       ctx.drawImage(tempCanvas, 0, 0);
 
-      ctx.font = `${14 * scaleFactor}px Poppins, Arial, sans-serif`;
-      ctx.fillStyle = "black";
-      ctx.textAlign = "center";
-      ctx.fillText("https://discord.gg/SuVMU2T9qK", canvas.width / 2, canvas.height - 20);
+      // Removed the Discord link text drawing from canvas here!
 
       const downloadLink = document.getElementById("downloadLink");
       downloadLink.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
