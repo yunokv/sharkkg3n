@@ -6,219 +6,122 @@
   <title>Shark Gen</title>
   <style>
     * {
-      box-sizing: border-box;
-      padding: 0;
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      font-family: Arial, sans-serif;
-      position: relative;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f0f1b;
+      color: #f0f0f0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem;
-      background: linear-gradient(to bottom right, #1f1c2c, #928dab);
-      color: #fff;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
-      opacity: 0.08;
-      z-index: 0;
-    }
-
-    h1, h2 {
-      position: relative;
-      z-index: 1;
-      animation: fadeDown 0.8s ease-out forwards;
-      text-shadow: 0 0 10px #00c6ff, 0 0 20px #00c6ff, 0 0 30px #00c6ff;
+      padding: 2rem 1rem;
     }
 
     h1 {
-      margin-bottom: 0.5rem;
       font-size: 2.5rem;
-      color: #00c6ff;
+      margin-bottom: 0.25rem;
+      color: #66d9ef;
+      text-shadow: 0 0 10px #66d9ef66;
     }
 
     h2 {
-      margin-bottom: 2rem;
       font-size: 1rem;
-      color: #7fd4ff;
+      color: #999;
+      margin-bottom: 2rem;
     }
 
-    .grid {
-      position: relative;
-      z-index: 1;
+    .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
       width: 100%;
       max-width: 1000px;
-      animation: fadeUp 1.2s ease-out forwards;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.75); /* 75% opacity as you wanted */
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      background: #1a1b2e;
+      border-radius: 14px;
       overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.3s;
+      box-shadow: 0 0 0 transparent;
       cursor: pointer;
-      text-align: center;
-      border: 2px solid transparent;
-      transform-style: preserve-3d;
-      transition: box-shadow 0.3s ease, border 0.3s ease, transform 0.2s ease;
-      animation: cardFadeIn 0.6s ease-out forwards;
+      border: 1px solid #2a2b3d;
     }
 
     .card:hover {
-      border-color: #00c6ff;
-      box-shadow: 0 12px 30px rgba(0, 198, 255, 0.6);
-      transform: translateY(-8px) scale(1.05);
-      animation: none;
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 0 15px #66d9ef33;
     }
 
     .card img {
       width: 100%;
-      height: 200px;
+      height: 160px;
       object-fit: contain;
+      background: #f0f0f0;
       padding: 1rem;
-      background-color: #f9f9f9;
-      border-bottom: 1px solid #eee;
-      transition: filter 0.3s ease;
-    }
-
-    .card:hover img {
-      filter: drop-shadow(0 0 10px #00c6ff);
     }
 
     .card-title {
-      padding: 1rem;
-      font-size: 1.3rem;
+      text-align: center;
+      font-size: 1.2rem;
       font-weight: bold;
-      color: #222;
-      user-select: none;
+      padding: 1rem;
+      background-color: #1f2035;
+      color: #fff;
     }
 
-    .discord-button {
-      position: relative;
-      z-index: 1;
+    .discord-btn {
       margin-top: 3rem;
-      padding: 0.75rem 1.5rem;
-      background-color: #5865F2;
-      color: #fff;
-      font-size: 1rem;
+      padding: 0.8rem 1.6rem;
+      background: linear-gradient(135deg, #5865F2, #404EED);
       border: none;
-      border-radius: 10px;
+      color: white;
+      font-size: 1rem;
+      border-radius: 8px;
       cursor: pointer;
       text-decoration: none;
-      box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
-      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-      animation: pulseGlow 2s infinite ease-in-out;
-      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px #5865f255;
     }
 
-    .discord-button::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at 20% 20%, #a0d8ff, transparent 40%);
-      opacity: 0;
-      animation: sparkle 3s infinite;
-      pointer-events: none;
-      transition: opacity 0.3s;
-    }
-
-    .discord-button:hover {
-      background-color: #4752c4;
-      transform: translateY(-2px);
-      box-shadow: 0 0 25px rgba(88, 101, 242, 0.8);
-    }
-
-    .discord-button:hover::after {
-      opacity: 1;
+    .discord-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #5865f2aa;
     }
 
     footer {
-      margin-top: 4rem;
-      text-align: center;
-      color: #ccc;
-      font-size: 0.85rem;
-      position: relative;
-      z-index: 1;
+      margin-top: auto;
       padding: 2rem 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(6px);
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-      width: 90%;
-      max-width: 800px;
-      animation: fadeUp 1.5s ease-out forwards;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #aaa;
     }
 
     footer a {
-      color: #8ab4f8;
+      color: #66d9ef;
       text-decoration: none;
-      transition: color 0.3s ease;
+      margin: 0 0.5rem;
     }
 
     footer a:hover {
-      color: #00c6ff;
       text-decoration: underline;
-    }
-
-    @keyframes fadeUp {
-      0% { transform: translateY(30px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-
-    @keyframes fadeDown {
-      0% { transform: translateY(-30px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-
-    @keyframes cardFadeIn {
-      0% { transform: translateY(20px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 20px rgba(88, 101, 242, 0.5); }
-      50% { box-shadow: 0 0 30px rgba(88, 101, 242, 0.9); }
-    }
-
-    @keyframes sparkle {
-      0%, 100% { opacity: 0; transform: translate(0,0) rotate(0deg); }
-      50% { opacity: 1; transform: translate(30px, 30px) rotate(45deg); }
-    }
-
-    @media (max-width: 500px) {
-      h1 {
-        font-size: 2rem;
-      }
-      .card img {
-        height: 150px;
-      }
     }
   </style>
 </head>
 <body>
 
-  <h1>Choose a Generator</h1>
-  <h2>made by @shark.net</h2>
+  <h1>Shark Gen</h1>
+  <h2>built by @shark.net</h2>
 
-  <div class="grid">
+  <div class="card-grid">
     <a class="card" href="morri.html">
       <img src="https://1000logos.net/wp-content/uploads/2023/03/Morrisons-logo.png" alt="Morrisons Logo" />
-      <div class="card-title" style="color:#007a33;">Morrisons</div>
+      <div class="card-title" style="color:#00cc66;">Morrisons</div>
     </a>
 
     <a class="card" href="sains.html">
@@ -228,49 +131,22 @@
 
     <a class="card" href="tesco.html">
       <img src="https://www.logo.wine/a/logo/Tesco/Tesco-Logo.wine.svg" alt="Tesco Logo" />
-      <div class="card-title" style="color:#00539f;">Tesco</div>
+      <div class="card-title" style="color:#0073e6;">Tesco</div>
     </a>
   </div>
 
-  <a class="discord-button" href="https://discord.gg/SuVMU2T9qK" target="_blank">Join the Discord</a>
+  <a class="discord-btn" href="https://discord.gg/SuVMU2T9qK" target="_blank">
+    Join the Discord
+  </a>
 
   <footer>
-    <p>© 2025 st0ne All rights reserved.</p>
+    <p>© 2025 Shark Gen. All rights reserved.</p>
     <p>
-      <a href="https://discord.gg/SuVMU2T9qK">Join our Discord</a>
-      &nbsp;|&nbsp;
-      <a href="terms.html">Terms of Use</a>
-      &nbsp;|&nbsp;
+      <a href="https://discord.gg/SuVMU2T9qK">Discord</a> |
+      <a href="terms.html">Terms of Use</a> |
       <a href="privacy.html">Privacy Policy</a>
     </p>
   </footer>
-
-  <script>
-    // Card tilt effect on mouse move
-    const cards = document.querySelectorAll('.card');
-
-    cards.forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateX = ((y - centerY) / centerY) * 8; // max tilt angle
-        const rotateY = ((x - centerX) / centerX) * 8;
-
-        card.style.transform = `translateY(-8px) scale(1.05) rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
-        card.style.opacity = "1"; // keep fully visible
-      });
-
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0) scale(1) rotateX(0) rotateY(0)';
-        card.style.opacity = "1"; // keep fully visible
-      });
-    });
-  </script>
 
 </body>
 </html>
