@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Shark Gen</title>
   <style>
     * {
@@ -13,7 +13,7 @@
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: radial-gradient(circle at top, #ffe6f0, #cceeff);
+      background: linear-gradient(135deg, #e3fdfd, #ffe6fa);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -44,53 +44,44 @@
       gap: 2rem;
       width: 100%;
       max-width: 1100px;
-      perspective: 1000px;
+    }
+
+    .card-link {
+      text-decoration: none;
+      perspective: 1200px;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 18px;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
       position: relative;
-      height: 260px;
-      cursor: pointer;
+      width: 100%;
+      height: 280px;
+      border-radius: 20px;
+      transform-style: preserve-3d;
+      transition: transform 1s ease;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     }
 
-    .card:hover {
-      transform: rotateY(180deg);
+    .card-link:hover .card {
+      transform: rotateY(360deg);
     }
 
     .card-face {
       position: absolute;
       width: 100%;
       height: 100%;
+      border-radius: 20px;
       backface-visibility: hidden;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      border-radius: 18px;
-      padding: 1rem;
+      justify-content: center;
+      transition: all 0.3s ease;
     }
 
     .card-front {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    .card-front img {
-      max-height: 120px;
-      margin-bottom: 1rem;
-      object-fit: contain;
-    }
-
-    .card-front .title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #222;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
     }
 
     .card-back {
@@ -99,8 +90,18 @@
       color: #fff;
       font-weight: bold;
       font-size: 1.2rem;
-      justify-content: center;
-      align-items: center;
+    }
+
+    .card-front img {
+      max-height: 130px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+
+    .card-front .title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #222;
     }
 
     .discord-btn {
@@ -140,41 +141,53 @@
     footer a:hover {
       text-decoration: underline;
     }
+
+    @media (max-width: 500px) {
+      h1 { font-size: 2.2rem; }
+      .card { height: 240px; }
+      .card-front img { max-height: 100px; }
+    }
   </style>
 </head>
 <body>
 
   <h1>Shark Gen</h1>
-  <h2>flip a card, pick your gen</h2>
+  <h2>tap or hover a card to flip & start</h2>
 
   <div class="card-grid">
-    <a class="card" href="morri.html">
-      <div class="card-face card-front">
-        <img src="https://1000logos.net/wp-content/uploads/2023/03/Morrisons-logo.png" alt="Morrisons Logo" />
-        <div class="title">Morrisons</div>
-      </div>
-      <div class="card-face card-back">
-        Click to Enter →
-      </div>
-    </a>
-
-    <a class="card" href="sains.html">
-      <div class="card-face card-front">
-        <img src="https://1000logos.net/wp-content/uploads/2018/08/Sainsbury%E2%80%99s-Logo.png" alt="Sainsbury's Logo" />
-        <div class="title">Sainsbury's</div>
-      </div>
-      <div class="card-face card-back">
-        Start Generating →
+    <a class="card-link" href="morri.html">
+      <div class="card">
+        <div class="card-face card-front">
+          <img src="https://1000logos.net/wp-content/uploads/2023/03/Morrisons-logo.png" alt="Morrisons Logo" />
+          <div class="title">Morrisons</div>
+        </div>
+        <div class="card-face card-back">
+          Click to Enter →
+        </div>
       </div>
     </a>
 
-    <a class="card" href="tesco.html">
-      <div class="card-face card-front">
-        <img src="https://www.logo.wine/a/logo/Tesco/Tesco-Logo.wine.svg" alt="Tesco Logo" />
-        <div class="title">Tesco</div>
+    <a class="card-link" href="sains.html">
+      <div class="card">
+        <div class="card-face card-front">
+          <img src="https://1000logos.net/wp-content/uploads/2018/08/Sainsbury%E2%80%99s-Logo.png" alt="Sainsbury's Logo" />
+          <div class="title">Sainsbury's</div>
+        </div>
+        <div class="card-face card-back">
+          Start Generating →
+        </div>
       </div>
-      <div class="card-face card-back">
-        Let’s Go →
+    </a>
+
+    <a class="card-link" href="tesco.html">
+      <div class="card">
+        <div class="card-face card-front">
+          <img src="https://www.logo.wine/a/logo/Tesco/Tesco-Logo.wine.svg" alt="Tesco Logo" />
+          <div class="title">Tesco</div>
+        </div>
+        <div class="card-face card-back">
+          Let’s Go →
+        </div>
       </div>
     </a>
   </div>
